@@ -1,15 +1,14 @@
 from flask import Flask, request, send_file, jsonify
 from weasyprint import HTML
 from bs4 import BeautifulSoup
-import tempfile
-import os
 import io
+import os
 
 app = Flask(__name__)
 
 def html_to_pdf(html_content, auto_style=True):
     """
-    Convert HTML string to PDF (in memory).
+    Convert HTML string to PDF in memory.
     Returns a BytesIO object with PDF data.
     """
     if auto_style:
@@ -50,12 +49,26 @@ def html_to_pdf(html_content, auto_style=True):
     pdf_io.seek(0)
     return pdf_io
 
+# -------------------------------
+# Routes
+# -------------------------------
+
+@app.route("/", methods=["GET"])
+def home():
+    """Root endpoint for browser/health testing"""
+    return jsonify({
+        "message": "PDF API is running! Use POST /convert to generate PDFs.",
+        "endpoints": {
+            "POST /convert": "Convert HTML to PDF (JSON: {html, filename})",
+            "GET /health": "Health check"
+        }
+    })
 
 @app.route("/convert", methods=["POST"])
 def convert_html():
     """
-    API endpoint to convert HTML -> PDF.
-    Expects JSON: { "html": "<html>...</html>", "filename": "mydoc.pdf" }
+    Convert HTML -> PDF.
+    JSON body: { "html": "<html>...</html>", "filename": "mydoc.pdf" }
     """
     try:
         data = request.get_json(force=True)
@@ -77,13 +90,15 @@ def convert_html():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @app.route("/health", methods=["GET"])
 def health():
     """Simple health check endpoint"""
     return jsonify({"status": "ok"}), 200
 
+# -------------------------------
+# Main entry
+# -------------------------------
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
