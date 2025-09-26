@@ -19,7 +19,7 @@ def html_to_pdf(html_content, auto_style=True):
             style_tag = soup.new_tag('style')
             style_tag.string = """
                 body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    font-family: 'Times New Roman', Times, serif;
                     margin: 40px;
                     line-height: 1.6;
                     color: #333;
