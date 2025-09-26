@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo-dev \
     shared-mime-info \
     fonts-dejavu-core \
+    fonts-liberation \ 
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
