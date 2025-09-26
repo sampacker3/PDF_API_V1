@@ -1,12 +1,10 @@
+# Dockerfile
 FROM python:3.11-slim-bullseye
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Accept Microsoft fonts license automatically
-RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
-
-# Install system libs WeasyPrint needs + Arial
+# Install system libs WeasyPrint needs (cairo, pango, harfbuzz, gdk-pixbuf, fonts)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
@@ -25,8 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxslt1-dev \
     libjpeg62-turbo-dev \
     shared-mime-info \
-    ttf-mscorefonts-installer \
-    fontconfig \
+    fonts-dejavu-core \
+    fonts-liberation \ 
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
