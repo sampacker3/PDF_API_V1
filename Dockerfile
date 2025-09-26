@@ -1,4 +1,3 @@
-# Dockerfile
 FROM python:3.11-slim-bullseye
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -24,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo-dev \
     shared-mime-info \
     fonts-dejavu-core \
-    fonts-liberation \ 
+    fonts-liberation \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -33,7 +32,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app
+# Copy app + fonts folder
 COPY . .
 
 # Use gunicorn for production; keep small worker count (PDF generation is CPU-heavy)
