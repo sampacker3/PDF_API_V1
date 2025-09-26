@@ -19,11 +19,12 @@ def html_to_pdf(html_content, auto_style=True):
             style_tag = soup.new_tag('style')
             style_tag.string = """
                 body {
-                    font-family: 'Times New Roman', Times, serif;
-                    margin: 40px;
-                    line-height: 1.6;
-                    color: #333;
-                }
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+    color: #333;
+}
+
                 h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
                 h2 { color: #34495e; margin-top: 30px; }
                 h3 { color: #7f8c8d; }
